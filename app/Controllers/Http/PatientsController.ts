@@ -1,6 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Database from '@ioc:Adonis/Lucid/Database'
+import Consultation from 'App/Models/Consultation'
 import Patient from 'App/Models/Patient'
 import User from 'App/Models/User'
 
@@ -89,5 +90,43 @@ export default class PatientsController {
             return error
             // response.badRequest(error.messages)
         }
+    }
+
+
+    public async getConsultations ({ params, auth, request, response }: HttpContextContract) {
+        let qs = request.qs()
+        let date = qs.date || null
+        let page = qs.page || 1
+        let size = qs.size || 15
+
+        let patient_id = params.patient_id
+
+        let patient = await Patient.find(patient_id)
+
+        let patientUser = auth.user
+        
+        if (patientUser.id != patient.userId) {
+            return {
+                status: 'error',
+                message: 'Unauthorized access'
+            }
+        }
+
+        // await doctor.load('doctorConsultations')
+
+        let consultations = Consultation.query()
+            .where('patient_id', patient.id)
+            .preload('doctor')
+            .preload('callbackStatus')
+            // .preload('patient')
+            
+        if (date) {
+            consultations.whereRaw('date(callback_datetime) = ?', [date])
+        }
+
+        return await consultations.paginate(page, size)
+
+        // let data = await consultations.paginate(page, size)
+        // return response.ok(data)
     }
 }

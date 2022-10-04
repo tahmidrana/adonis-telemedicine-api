@@ -2,9 +2,19 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Consultation from 'App/Models/Consultation'
 import { DateTime } from 'luxon'
-import moment from 'moment-timezone'
+// import moment from 'moment-timezone'
+// import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class ConsultationsController {
+
+    public async index({ auth, request, response }: HttpContextContract) {
+        // logger.info("Hello");
+        
+        const user = auth.user || 'N/A'
+
+        return user;
+    }
+
     /* 
      * TODO:
      * Check if doctor is available 
@@ -44,4 +54,5 @@ export default class ConsultationsController {
             response.badRequest(error.messages)
         }
     }
+
 }

@@ -13,6 +13,11 @@ export default class UsersController {
         const users = await User.all()
         return users
     }
+    
+    public async me({auth}: HttpContextContract) {        
+        const user = auth.user
+        return user
+    }
 
     public async store({ request, response }: HttpContextContract) {
 

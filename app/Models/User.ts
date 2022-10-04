@@ -3,6 +3,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel, manyToMany, ManyToMany, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import DoctorCategory from './DoctorCategory'
 import Patient from './Patient'
+import Consultation from './Consultation'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -52,4 +53,10 @@ export default class User extends BaseModel {
 
   @hasMany(() => Patient)
   public patients: HasMany<typeof Patient>
+  
+  
+  @hasMany(() => Consultation, {
+    foreignKey: 'doctorId'
+  })
+  public doctorConsultations: HasMany<typeof Consultation>
 }

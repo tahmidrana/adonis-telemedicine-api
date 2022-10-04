@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasOne, hasOne } from '@ioc:Adonis/Lucid/Orm'
 import CallbackStatus from './CallbackStatus'
+import User from './User'
 
 export default class Consultation extends BaseModel {
   @column({ isPrimary: true })
@@ -33,6 +34,18 @@ export default class Consultation extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   public updatedAt: DateTime
 
-  @hasOne(() => CallbackStatus)
-  public callbackStatus: HasOne<typeof CallbackStatus>
+  @belongsTo(() => CallbackStatus)
+  public callbackStatus: BelongsTo<typeof CallbackStatus>
+  
+  @belongsTo(() => User, {
+    // localKey: 'doctorId',
+    foreignKey: 'doctorId'
+  })
+  public doctor: BelongsTo<typeof User>
+
+  @belongsTo(() => User, {
+    // localKey: 'doctorId',
+    foreignKey: 'patientId'
+  })
+  public patient: BelongsTo<typeof User>
 }

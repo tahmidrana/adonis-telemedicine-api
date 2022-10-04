@@ -26,10 +26,17 @@ Route.get('/', async () => {
 
 Route.group(() => {
   Route.resource('users', 'UsersController').apiOnly()
+  Route.get('/users/me', 'UsersController.me')
 
   Route.resource('consultations', 'ConsultationsController').apiOnly()
+  // Route.get('consultations/get-consultations-for-doctor', 'ConsultationsController.getConsultationsForDoctor')
+
+  Route.get('/doctor/get-consultations', 'DoctorsController.getConsultations')
+  
+  
   Route.resource('patients', 'PatientsController').apiOnly()
   Route.post('patients/create-family-member', 'PatientsController.createFamilyMember')
+  Route.get('/patients/:patient_id/get-consultations', 'PatientsController.getConsultations')
 }).middleware(['auth:api'])
 
 
