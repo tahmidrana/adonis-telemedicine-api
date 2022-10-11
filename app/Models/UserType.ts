@@ -6,13 +6,13 @@ export default class UserType extends BaseModel {
   public id: number
   
   @column()
-  public name: string
+  public title: string
   
   @column()
-  public branchCode: string
+  public slug: string
   
   @column()
-  public address: string
+  public remarks: string
   
   @column()
   public isActive: boolean

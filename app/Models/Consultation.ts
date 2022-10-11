@@ -28,6 +28,9 @@ export default class Consultation extends BaseModel {
   @column()
   public createdByUserId: number
 
+  @column.dateTime()
+  public autoExpireAt: DateTime
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

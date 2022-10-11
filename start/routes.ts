@@ -25,8 +25,9 @@ Route.get('/', async () => {
 })
 
 Route.group(() => {
-  Route.resource('users', 'UsersController').apiOnly()
   Route.get('/users/me', 'UsersController.me')
+  
+  Route.resource('users', 'UsersController').apiOnly()
 
   Route.resource('consultations', 'ConsultationsController').apiOnly()
   // Route.get('consultations/get-consultations-for-doctor', 'ConsultationsController.getConsultationsForDoctor')
@@ -37,8 +38,12 @@ Route.group(() => {
   Route.resource('patients', 'PatientsController').apiOnly()
   Route.post('patients/create-family-member', 'PatientsController.createFamilyMember')
   Route.get('/patients/:patient_id/get-consultations', 'PatientsController.getConsultations')
+
+  Route.post('agora-token', 'AgoraTokensController.getToken')
 }).middleware(['auth:api'])
 
+Route.get('doctor-categories/:category_id/doctors', 'DoctorCategoriesController.categoryWiseDoctors')
+Route.get('doctor-categories', 'DoctorCategoriesController.index')
 
 // Auth Routes
 Route.post('login', 'AuthController.login')

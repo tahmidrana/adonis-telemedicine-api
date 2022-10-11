@@ -2,7 +2,8 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema } from '@ioc:Adonis/Core/Validator'
 
 export default class AuthController {
-    public async login({ auth, request, response }: HttpContextContract) {
+    public async login({ logger, auth, request, response }: HttpContextContract) {
+        logger.info("Login Request Hello");
 
         const loginSchema = schema.create({
             userid: schema.string(),

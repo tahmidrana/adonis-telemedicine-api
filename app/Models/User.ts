@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, manyToMany, ManyToMany, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { column, beforeSave, BaseModel, manyToMany, ManyToMany, hasMany, HasMany, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
 import DoctorCategory from './DoctorCategory'
 import Patient from './Patient'
 import Consultation from './Consultation'
+import UserType from './UserType'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -59,4 +60,9 @@ export default class User extends BaseModel {
     foreignKey: 'doctorId'
   })
   public doctorConsultations: HasMany<typeof Consultation>
+
+  @belongsTo(() => UserType, {
+    foreignKey: 'userTypeId'
+  })
+  public userType: BelongsTo<typeof UserType>
 }

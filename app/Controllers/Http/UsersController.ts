@@ -16,6 +16,12 @@ export default class UsersController {
     
     public async me({auth}: HttpContextContract) {        
         const user = auth.user
+        await user.load('userType')
+
+        if (user.userType.slug == 'patient') {
+            await user.load('patients')
+        }
+
         return user
     }
 
