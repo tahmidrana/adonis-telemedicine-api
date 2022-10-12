@@ -13,22 +13,22 @@ export default class Patient extends BaseModel {
   public userId: number
   
   @column()
-  public dob: string
+  public dob: string | null
   
   @column()
-  public gender: string
+  public gender: string | null
   
   @column()
   public relationship: string
   
   @column()
-  public weight: string
+  public weight: string | null
   
   @column()
-  public height: string
+  public height: string | null
   
   @column()
-  public bloodGroup: string
+  public bloodGroup: string | null
   
   @column()
   public isActive: boolean

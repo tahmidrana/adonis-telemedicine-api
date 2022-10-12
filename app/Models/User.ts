@@ -17,7 +17,7 @@ export default class User extends BaseModel {
   public userid: string
 
   @column()
-  public email: string
+  public email: string | null
 
   @column()
   public isActive: boolean

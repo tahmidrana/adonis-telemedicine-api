@@ -6,7 +6,7 @@ import Patient from 'App/Models/Patient'
 import User from 'App/Models/User'
 
 export default class PatientsController {
-    public async store({ auth, request, response }: HttpContextContract) {
+    public async store({ request }: HttpContextContract) {
         const newPatientSchema = schema.create({
             name: schema.string(),
             userid: schema.string([
@@ -63,7 +63,7 @@ export default class PatientsController {
         }
     }
 
-    public async createFamilyMember({ auth, request, response }: HttpContextContract) {
+    public async createFamilyMember({ request }: HttpContextContract) {
         let newPatientSchema = schema.create({
             name: schema.string(),
             user_id: schema.number(),
@@ -77,9 +77,11 @@ export default class PatientsController {
         
         try {
             const payload = await request.validate({ schema: newPatientSchema })            
-            payload.dob = payload.dob ? payload.dob.toString().split('T')[0] : null;
 
-            const patient = await Patient.create(payload);
+            const patient = await Patient.create({
+                ...payload,
+                dob: payload.dob ? payload.dob.toString().split('T')[0] : null
+            });
 
             return {
                 status: 'success',
@@ -93,7 +95,7 @@ export default class PatientsController {
     }
 
 
-    public async getConsultations ({ params, auth, request, response }: HttpContextContract) {
+    public async getConsultations ({ params, auth, request }: HttpContextContract) {
         let qs = request.qs()
         let date = qs.date || null
         let page = qs.page || 1
@@ -101,9 +103,9 @@ export default class PatientsController {
 
         let patient_id = params.patient_id
 
-        let patient = await Patient.find(patient_id)
+        let patient : any = await Patient.find(patient_id)
 
-        let patientUser = auth.user
+        let patientUser : any = auth.user
         
         if (patientUser.id != patient.userId) {
             return {

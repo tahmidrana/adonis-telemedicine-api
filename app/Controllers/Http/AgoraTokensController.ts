@@ -6,7 +6,7 @@ import Env from '@ioc:Adonis/Core/Env'
 
 
 export default class AgoraTokensController {
-    public async getToken ({ auth, request, response }: HttpContextContract) {
+    public async getToken ({ request, response }: HttpContextContract) {
         const newSchema = schema.create({
             consultation_id: schema.number(),
             uid: schema.number()

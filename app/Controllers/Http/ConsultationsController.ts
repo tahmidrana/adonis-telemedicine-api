@@ -8,7 +8,7 @@ import { DateTime } from 'luxon'
 
 export default class ConsultationsController {
 
-    public async index({ params, auth, request, response }: HttpContextContract) {
+    public async index({ request }: HttpContextContract) {
         let qs = request.qs()
         let date = qs.date || null
         let page = qs.page || 1
@@ -35,7 +35,7 @@ export default class ConsultationsController {
      * In app Notify doctor
      * Email/Sms patient
      */
-    public async store({ auth, request, response }: HttpContextContract) {
+    public async store({ auth, request }: HttpContextContract) {
         const newConsultationSchema = schema.create({
             doctor_id: schema.number(),
             patient_id: schema.number(),
@@ -43,6 +43,8 @@ export default class ConsultationsController {
                 format: 'yyyy-MM-dd',
             }, [rules.afterOrEqual('today'), ]),
         })
+
+        const user: any = auth.user;
 
         // Get this variables from .env
         const doctor_callgap_duration = 5; // in minutes
@@ -128,8 +130,8 @@ export default class ConsultationsController {
                 callbackStatusId: 1, // 1 - Accepted
                 consultationFee: 250, // TODO: consultation & followup fee need to get from doctor profile
                 followupFee: 250, // TODO: consultation & followup fee need to get from doctor profile
-                createdByUserId: auth.user.id,
-                autoExpireAt: DateTime.fromISO(`${callback_date}T23:59:00`).toFormat('yyyy-MM-dd HH:mm:ss')
+                createdByUserId: user.id,
+                autoExpireAt: DateTime.fromISO(`${callback_date}T23:59:00`)
             }
     
             const consultation = await Consultation.create(saveData)

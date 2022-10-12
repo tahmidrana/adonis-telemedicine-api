@@ -2,13 +2,13 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Consultation from 'App/Models/Consultation'
 
 export default class DoctorsController {
-    public async getConsultations ({ auth, request, response }: HttpContextContract) {
+    public async getConsultations ({ auth, request }: HttpContextContract) {
         let qs = request.qs()
         let date = qs.date || null
         let page = qs.page || 1
         let size = qs.size || 15
 
-        let doctor = auth.user
+        let doctor : any = auth.user
 
         // await doctor.load('doctorConsultations')
 

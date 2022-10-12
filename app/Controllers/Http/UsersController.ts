@@ -4,7 +4,7 @@ import User from 'App/Models/User'
 
 export default class UsersController {
 
-    public async index(ctx: HttpContextContract) {
+    public async index() {
         // const doctor = await User.query().preload('doctorCategories')
         /* const doctor = await User.find(4)
         await doctor.load('doctorCategories')
@@ -15,7 +15,7 @@ export default class UsersController {
     }
     
     public async me({auth}: HttpContextContract) {        
-        const user = auth.user
+        const user : any = auth.user
         await user.load('userType')
 
         if (user.userType.slug == 'patient') {
